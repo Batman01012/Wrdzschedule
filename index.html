@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wardy — Qudrat Study App</title>
+
+  <!-- PWA additions -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#ff6ea8">
+  <link rel="icon" href="icon-192.png">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">🌸</div>
+      <div>
+        <h1>Wardy — Qudrat</h1>
+        <p class="subtitle">9-Day Plan • Verbal (لفظي) • Quant (كمي) • Review (مراجعة)</p>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">XP</div>
+        <div id="xp" class="stat-value">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Coins</div>
+        <div id="coins" class="stat-value">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Streak</div>
+        <div id="streak" class="stat-value">0🔥</div>
+      </div>
+      <div class="badge-row" id="badges" aria-label="badges"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- TIMER -->
+    <section class="panel timer">
+      <h2>Timer</h2>
+      <div class="timer-display" id="timerDisplay" aria-live="polite">25:00</div>
+
+      <div class="timer-controls">
+        <button class="chip" data-mode="pomodoro">Pomodoro 25/5</button>
+        <button class="chip" data-mode="deep">Deep Focus 50/10</button>
+        <button class="chip" data-mode="custom">Custom</button>
+      </div>
+
+      <div class="custom-row" id="customRow" hidden>
+        <label>Study minutes
+          <input type="number" id="customWork" min="1" max="180" value="30">
+        </label>
+        <label>Break minutes
+          <input type="number" id="customBreak" min="1" max="60" value="5">
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resetBtn" class="ghost">Reset</button>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress" id="timerProgress"></div>
+      </div>
+
+      <p class="hint" id="mood">✨ Yalla يا وردي — every minute counts!</p>
+    </section>
+
+    <!-- PLAN -->
+    <section class="panel plan">
+      <h2>Daily Plan</h2>
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" class="tab active" data-tab="verbal">Verbal (لفظي) — 3 days</button>
+        <button role="tab" aria-selected="false" class="tab" data-tab="quant">Quant (كمي) — 3 days</button>
+        <button role="tab" aria-selected="false" class="tab" data-tab="review">Review (مراجعة) — 3 days</button>
+      </div>
+
+      <div id="verbal" class="tabpanel active" role="tabpanel"></div>
+      <div id="quant" class="tabpanel" role="tabpanel" hidden></div>
+      <div id="review" class="tabpanel" role="tabpanel" hidden></div>
+    </section>
+
+    <!-- REWARDS -->
+    <section class="panel rewards">
+      <h2>Rewards & Motivation</h2>
+      <div class="rewards-grid">
+        <div>
+          <h3>Daily Gains</h3>
+          <ul class="reward-list">
+            <li>Finish a study session → +10 XP, +2 Coins</li>
+            <li>Complete all 5 tasks in a day → +10 XP, +3 Coins</li>
+            <li>Daily streak (المداومة) → +5 XP/day</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Badges (أوسمة)</h3>
+          <ul class="reward-list">
+            <li>🎀 Pink Performer: 100 XP</li>
+            <li>👑 Discipline Queen: 300 XP</li>
+            <li>💎 Qudrat Star: 600 XP</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cute Rewards (مكافآت)</h3>
+          <ul class="reward-list">
+            <li>10 Coins: Treat yourself ☕</li>
+            <li>30 Coins: 30 min fun time 🎧</li>
+            <li>60 Coins: Small gift 🎁</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="confetti" aria-hidden="true"></div>
+
+  <footer class="app-footer">
+    Made with love for Wardy 🌷 — إستمري وثقي بنفسك
+  </footer>
+
+  <script src="app.js"></script>
+
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      const base = location.pathname.endsWith('/')
+        ? location.pathname
+        : location.pathname.replace(/\/[^/]*$/, '/');
+      navigator.serviceWorker.register(base + 'service-worker.js')
+        .then(() => console.log('SW registered'))
+        .catch(console.error);
+    }
+  </script>
+</body>
+</html>
